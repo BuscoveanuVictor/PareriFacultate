@@ -1,0 +1,66 @@
+<html>
+<head>
+
+	<link rel="stylesheet" href="comment.css">	
+	<script type="text/javascript"  charset="UTF-8" ></script>
+	<title>PareriFacultate</title>
+
+</head>
+<body>
+
+	 
+	<div class="comment-box">
+        <!--
+        <form name="form" action="/upload" method="POST">
+            <input type="text" name="nume">
+            <input type="submit" value="submit">
+        </form>
+        -->
+        <h2>Comentariu</h2>
+        <form>
+            <input id="id-nume" type="text" name="numele_intreg" placeholder="Nume..." required>
+            <input id="id-email" type="email" name="email" placeholder="Adresa de Email..." required>
+            <textarea id="id-comm" name="comentariu" placeholder="Spuneti parerea..." required></textarea>
+            
+        </form>
+        <button id='id-button' type="button"> Trimite </button>
+
+
+	</div>
+	
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+	<script>
+       
+        function _(elmnt){return document.getElementById(elmnt)}
+
+        _('id-button').addEventListener('click',async(e)=>{
+            
+            var baseUrl = window.location.href + '/upload';
+            const data={
+                nume : _('id-nume').value,
+                email: _('id-email').value,
+                comentariu : _('id-comm').value
+            }
+        
+            const options ={
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+            const res = await fetch(baseUrl,options)
+            if(res.ok){
+                //window.location.href=window.location.origin+'/status/1';
+            }else{
+                //window.location.href=window.location.origin+'/status/0';
+            }
+            
+        });
+
+	</script>
+
+	
+</body>
+</html>

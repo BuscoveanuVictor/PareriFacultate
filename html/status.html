@@ -1,0 +1,26 @@
+<!doctype html>
+<head>
+</head>
+ 
+<body>
+    <div id="id-div">
+
+    </div>
+
+    <script>
+
+        function _(elmnt){return document.getElementById(elmnt);}
+
+        var status='';
+        if(window.location.href.indexOf('1')==-1){
+            status= '<h1>S-a produs o eroare si comentariul nu a putut fi trimis</h1>'
+        }
+        else{
+            status='<h1>Comentariul tau a fost trimis cu succes</h1>'
+        }
+        _('id-div').insertAdjacentHTML('beforeend',status);
+
+    </script>
+
+</body>
+</html>

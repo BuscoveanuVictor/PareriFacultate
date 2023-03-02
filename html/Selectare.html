@@ -1,0 +1,51 @@
+<html>
+<head>
+
+	<link rel="stylesheet" href="Exemplu.css">	
+	<script type="module" src="Pages/Ramura.js" charset="UTF-8" ></script>
+	<title>PareriFacultate</title>
+
+</head>
+<body>
+	<img id="background" src="background.png">
+	 
+	<div class="panel" >
+		<p id="titlu">Alege facultatea</p>
+		<select id="select"></select>
+		<img id="button" class="input" src="arrow.png" >
+		
+		<script>
+			
+			function _(elmnt){return document.getElementById(elmnt);}
+
+			const baseUrl = window.location.href + '/get_info';
+			window.addEventListener("load", async (event) =>{
+				event.preventDefault();
+				const res = await fetch(baseUrl,{
+					method : 'GET'
+				})
+				const data = await res.json()
+				//console.log(data.numeFacultati);
+				
+				var insertData='';
+
+				for(var i=0; i<data.length; i++){
+					insertData = insertData + '<option value="' + data.idFacultati[i] + '">' + data.numeFacultati[i] + '</option>\n';
+				}
+				//_('id-select').insertAdjacentHTML('beforeend',insertData);
+			})
+			/*
+			_('id-select').addEventListener("click",(e)=>{
+				var e = document.getElementById("id-select");
+				var value = e.value; 
+				console.log(value);
+			})
+			*/
+		</script>
+
+				
+	</div>
+
+	
+</body>
+</html>
