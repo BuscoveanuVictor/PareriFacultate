@@ -62,6 +62,7 @@ app.get('/', function(req:Request,res:Response){
         }
         res.end();
     });
+    console.log('ceva');
 });
 
 
