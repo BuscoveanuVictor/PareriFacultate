@@ -8,12 +8,10 @@ window.addEventListener("load", async (event) =>{
 
     console.log(data);
     
-    var dataToInsert = `<h1>Facultatea de <br>  ${data[0].facultate} </h1>`;
+    var dataToInsert = `<h1>Facultatea de <br>  ${data[0].nume} </h1>`;
     content.insertAdjacentHTML('beforeend',dataToInsert);
 
     button.onclick = ()=>{
        window.location.href =  `http://localhost/forum/${data[0].id}`;
     }
-
-
 })

@@ -1,6 +1,6 @@
 import express, {Request, Response}from 'express';
 import fs from 'fs'; 
-import mysql from 'mysql';
+import mysql from 'mysql2';
 import excel from 'xlsx';
 import nodemailer from 'nodemailer';
 
@@ -18,8 +18,9 @@ app.use(express.json())
 
 const db = mysql.createConnection({
     host : "localhost",
+    port: 3306,
     user : "root",
-    password : "mugly11",
+    password : "Mugly11@",
     database : "victordb",
 })
 
@@ -51,6 +52,9 @@ app.use('/comment', express.static("css",options));
 app.use('/comment', express.static("js",options));
 app.use('/comment', express.static("imagini",options));
 
+app.use('/forum', express.static("css",options));
+app.use('/forum', express.static("js",options));
+app.use('/forum', express.static("imagini",options));
 
 app.get('/', function(req:Request,res:Response){
     fs.readFile('./html/Exemplu.html',null, (error:any,data:any) => {
@@ -172,6 +176,16 @@ app.get('/prezentare/*', function(req:any,res:any){
         }
         res.end();
     });
+});
+
+app.get('/forum/:id/get_info',function(req:any,res:any){
+    var Q = `SELECT * FROM facultati WHERE id='${req.params.id}'`;
+    db.query(Q,function (err:any, result:any, fields:any) {
+        if(err){
+            res.writeHead(404);
+            res.write('S-a produs o eroare');
+        }else res.send(result);
+    })
 });
 
 app.get('/forum/*', function(req:any,res:any){
