@@ -40,24 +40,33 @@ body{
     position: absolute;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     top: 30vh;
     left: 50vw;
     transform: translate(-50%,-50%);
     width: 100vw;
     height: 60vh;
-    flex-direction: column;
-    justify-content: center;
 }
-
 .comment{
-   
-    width: 200px;
-    height: 120px;
+    position: relative;
+    width: auto;
+    height: auto;
     border: 1px solid black;
     border-radius: 20px;
     padding: 15px;
     display: flex;
     justify-content: space-around;   
+}
+
+#second{
+    top : 50px
+}
+#third{
+    top : 50px
+}
+
+.textComment{
+    font-size: 100%;
 }
 
 img{
