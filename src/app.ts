@@ -219,18 +219,20 @@ app.get('/forum/*', function(req:any,res:any){
 });
 
 app.post('/comment/:id/upload', async function(req:any,res:any){
-   
+    
     let Q = `INSERT INTO users (nume,email,password) VALUES ("${req.body.nume}","${req.body.email}","${req.body.password}")`;
-
-
     db.query(Q,function (err:any, result:any, fields:any) {
         if(err){
+            throw err;
             res.writeHead(404);
             res.write('S-a produs o eroare');
         }else{
-            
+            res.send({
+                status :'s-a trimis',
+            });
         }
     });
+
     
     /*
     let transporter = nodemailer.createTransport({

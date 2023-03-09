@@ -17,13 +17,20 @@ submit.addEventListener('click',async(e)=>{
         body: JSON.stringify(data)
     }
 
-    const res = await fetch(baseUrl,options)
-    console.log(res);
+    //const res = await fetch(baseUrl,options)
+    //console.log(res.ok);
 
+    fetch(baseUrl,options)
+    .then((response) => response.json())
+    .then((res)=>{
+        console.log(res.status);
+    })
+
+/*
     if(res){
        // window.location.href=window.location.origin+'/status/1';
     }else{
         //window.location.href=window.location.origin+'/status/0';
     }
-    
+  */  
 });
