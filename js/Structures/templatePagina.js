@@ -16,7 +16,6 @@ export class requestPage extends page{
     constructor(data){
         super(data);
     }
-
     async request(req){
         let baseUrl =  window.location.href + req;
         const res = await fetch(baseUrl,{

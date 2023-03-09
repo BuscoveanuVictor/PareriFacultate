@@ -188,6 +188,23 @@ app.get('/forum/:id/get_info',function(req:any,res:any){
     })
 });
 
+app.get('/forum/:id/get_comm',function(req:any,res:any){
+
+    
+
+    var Q = `SELECT * FROM comentarii WHERE cod_facultate='${req.params.id}'`;
+    db.query(Q,function (err:any, result:any, fields:any) {
+        if(err){
+            res.writeHead(404);
+            res.write('S-a produs o eroare');
+        }else {
+            res.send(result);
+        }
+    })
+});
+
+
+
 app.get('/forum/*', function(req:any,res:any){
     fs.readFile('./html/Forum.html',null, (error:any,data:any) => {
         if (error){
@@ -204,6 +221,9 @@ app.get('/forum/*', function(req:any,res:any){
 
 app.post('/comment/:id/upload', async function(req:any,res:any){
 
+    console.log('ceva');
+
+    /*
     let transporter = nodemailer.createTransport({
         service:'yahoo',
         port: 25,
@@ -222,11 +242,12 @@ app.post('/comment/:id/upload', async function(req:any,res:any){
     }
     transporter.sendMail(mailOptions,(err:any,info:any)=>{
         if(err)console.log(err)
-        else console.log(info.response)
+        else; //console.log(info.response)
     })
 
     res.end();
-
+    */
+    res.end();
 
 });
 
@@ -245,7 +266,7 @@ app.get('/comment/*', function(req:any,res:any){
 
 
 app.get('/status/*',function(req:any,res:any){
-    fs.readFile('./status.html',null, (error: any,data:any) => {
+    fs.readFile('./html/status.html',null, (error: any,data:any) => {
         if (error){
             res.writeHead(404);
             res.write('File not found!');

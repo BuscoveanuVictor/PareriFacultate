@@ -18,12 +18,11 @@
         -->
         <h2>Comentariu</h2>
         <form>
-            <input id="id-nume" type="text" name="numele_intreg" placeholder="Nume..." required>
-            <input id="id-email" type="email" name="email" placeholder="Adresa de Email..." required>
-            <textarea id="id-comm" name="comentariu" placeholder="Spuneti parerea..." required></textarea>
-            
+            <input id="nume" type="text" name="numele_intreg" placeholder="Nume..." required>
+            <input id="email" type="email" name="email" placeholder="Adresa de Email..." required>
+            <textarea id="comm" name="comentariu" placeholder="Spuneti parerea..." required></textarea>
         </form>
-        <button id='id-button' type="button"> Trimite </button>
+        <button id="submit"> Trimite </button>
 
 
 	</div>
@@ -34,13 +33,16 @@
        
         function _(elmnt){return document.getElementById(elmnt)}
 
-        _('id-button').addEventListener('click',async(e)=>{
-            
+        
+        submit.addEventListener('click',async(e)=>{
+
+            if(!(nume.value && email.value && comm.value))return;
+
             var baseUrl = window.location.href + '/upload';
             const data={
-                nume : _('id-nume').value,
-                email: _('id-email').value,
-                comentariu : _('id-comm').value
+                nume : nume.value,
+                email: email.value,
+                comentariu : comm.value
             }
         
             const options ={
@@ -52,13 +54,13 @@
             }
             const res = await fetch(baseUrl,options)
             if(res.ok){
-                //window.location.href=window.location.origin+'/status/1';
+                window.location.href=window.location.origin+'/status/1';
             }else{
-                //window.location.href=window.location.origin+'/status/0';
+                window.location.href=window.location.origin+'/status/0';
             }
             
         });
-
+        
 	</script>
 
 	
