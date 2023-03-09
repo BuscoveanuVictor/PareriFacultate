@@ -5,6 +5,9 @@ import excel from 'xlsx';
 import nodemailer from 'nodemailer';
 
 import path from 'path';
+var jwt = require('jsonwebtoken');
+
+
 const { Transform } = require('stream');
 const { resourceUsage } = require('process');
 
@@ -190,9 +193,7 @@ app.get('/forum/:id/get_info',function(req:any,res:any){
 
 app.get('/forum/:id/get_comm',function(req:any,res:any){
 
-    
-
-    var Q = `SELECT * FROM comentarii WHERE cod_facultate='${req.params.id}'`;
+    var Q = `SELECT * FROM users WHERE cod_facultate='${req.params.id}'`;
     db.query(Q,function (err:any, result:any, fields:any) {
         if(err){
             res.writeHead(404);
@@ -217,12 +218,20 @@ app.get('/forum/*', function(req:any,res:any){
     });
 });
 
-
-
 app.post('/comment/:id/upload', async function(req:any,res:any){
+   
+    let Q = `INSERT INTO users (nume,email,password) VALUES ("${req.body.nume}","${req.body.email}","${req.body.password}")`;
 
-    console.log('ceva');
 
+    db.query(Q,function (err:any, result:any, fields:any) {
+        if(err){
+            res.writeHead(404);
+            res.write('S-a produs o eroare');
+        }else{
+            
+        }
+    });
+    
     /*
     let transporter = nodemailer.createTransport({
         service:'yahoo',
@@ -247,8 +256,6 @@ app.post('/comment/:id/upload', async function(req:any,res:any){
 
     res.end();
     */
-    res.end();
-
 });
 
 app.get('/comment/*', function(req:any,res:any){
@@ -265,7 +272,7 @@ app.get('/comment/*', function(req:any,res:any){
 
 
 
-app.get('/status/*',function(req:any,res:any){
+app.get('/status',function(req:any,res:any){
     fs.readFile('./html/status.html',null, (error: any,data:any) => {
         if (error){
             res.writeHead(404);
