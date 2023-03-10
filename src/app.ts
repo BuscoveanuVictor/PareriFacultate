@@ -5,8 +5,9 @@ import excel from 'xlsx';
 import nodemailer from 'nodemailer';
 
 import path from 'path';
-var jwt = require('jsonwebtoken');
 
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const { Transform } = require('stream');
 const { resourceUsage } = require('process');
@@ -35,7 +36,13 @@ db.connect((err:any)=>{
     //bTag = true;
 });
 
+const EMAILSECRET="58b0b1c111569abfc6617d578dccf64edf434c5022a096438b1bb09d67ca97c5de"+
+"3cb73371b2f3991d8a4a662e673ed4acee7b316325bab123a3397ca1032bc5";
+
+
 let options = {};
+
+app.use(express.json());
 
 app.use(express.static("css",options));
 app.use(express.static("js",options));
@@ -233,8 +240,18 @@ app.post('/comment/:id/upload', async function(req:any,res:any){
         }
     });
 
+    //const EMAILSECRET = crypto.randomBytes(64).toString('hex');
+  
+    //console.log(EMAILSECRET);
+
+    const emailToken = jwt.sign(
+        {
+            user_email : req.body.email,
+        },
+        EMAILSECRET,
+    );
+    const url = "http://localhost/confirmation/" + emailToken;  
     
-    /*
     let transporter = nodemailer.createTransport({
         service:'yahoo',
         port: 25,
@@ -248,16 +265,16 @@ app.post('/comment/:id/upload', async function(req:any,res:any){
     let mailOptions = {
         from : 'bucurestiiloveyou@yahoo.com',
         to: 'surfer_haihui@yahoo.com',
-        subject : 'Hello!',
-        text: 'Ceva important'
+        subject : 'Sign Up',
+        text: url,
     }
     transporter.sendMail(mailOptions,(err:any,info:any)=>{
         if(err)console.log(err)
         else; //console.log(info.response)
     })
-
+   /*
     res.end();
-    */
+      */
 });
 
 app.get('/comment/*', function(req:any,res:any){
@@ -274,16 +291,26 @@ app.get('/comment/*', function(req:any,res:any){
 
 
 
-app.get('/status',function(req:any,res:any){
-    fs.readFile('./html/status.html',null, (error: any,data:any) => {
-        if (error){
-            res.writeHead(404);
-            res.write('File not found!');
-        }else{
-            res.write(data);
+app.get('/confirmation/:token',function(req:any,res:any){
+
+    const user_email = jwt.verify(req.params.token,EMAILSECRET).user_email;
+    let Q = `UPDATE users SET autentificat = 1 WHERE email = '${user_email}'`; 
+    
+    db.query(Q,(err:any,result:any,fields:any)=>{
+        if(err)throw err;
+        else {
+            fs.readFile('./html/status.html',null, (error: any,data:any) => {
+                if (error){
+                    res.writeHead(404);
+                    res.write('File not found!');
+                }else{
+                    res.write(data);
+                }
+                res.end();
+            });
         }
-        res.end();
-    });
+    })
+
 });
 
 
